@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import * as S from './assets/style/style';
+import iggy from './assets/img/iggy.png';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+export default function App(){
+  const [dog, setDog] = useState([]);
+
+  useEffect(() => {
+    getDog();
+  }, []);
+
+  const getDog = async () => {
+    const response = await fetch(`https://dog.ceo/api/breeds/image/random`);
+    const data = await response.json();
+    setDog(data.message)
+  }
+
+  return(
+    <>
+      <S.Wrapper>
+        <S.GlobalStyle/>
+        <S.Main>
+          <S.Image src={dog} alt=''/>
+          <S.Button onClick={() => getDog()}>Click me</S.Button>
+          <S.IggyImage src={iggy} alt=''/>
+        </S.Main>
+      </S.Wrapper>
+    </>
   );
 }
-
-export default App;
